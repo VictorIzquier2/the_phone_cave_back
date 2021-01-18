@@ -13,7 +13,7 @@ const PhoneSchema = Schema({
   description: {type: String, required: true},
   color: {type: String, required: true},
   price: {type: Number, required: true},
-  imageFileName: {type: String},
+  imageFileName: String,
   screen: {type: String, required: true},
   processor: {type: String, required: true},
   ram: {type: Number, required: true}

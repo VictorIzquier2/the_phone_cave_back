@@ -128,7 +128,7 @@ const phoneController = {
     const params = req.body;
     
     // 2. Validar datos
-    if(!params.name || !params.manufacturer ||  !params.description || !params.color || !params.price || !params.imageFileName || !params.screen || !params.processor || !params.ram ){
+    if(!params.name || !params.manufacturer ||  !params.description || !params.color || !params.price || !params.screen || !params.processor || !params.ram ){
       return res
         .status(500)
         .send({
@@ -180,12 +180,14 @@ const phoneController = {
 
   telefonosFromDB: (req, res) => {
 
-    const query = Phone.find({});
+    let query;
     
     // limitar el número de resultados a 5
     const last = req.params.last;
-    if(last && typeof last === Number){
-      query.limit(5);
+    if(last){
+      query = Phone.find({}).limit(3);
+    }else{
+      query = Phone.find({})
     }    
     
     // Obtener los telefonos de la base de datos con el método find ordenados de más nuevos a más viejos
@@ -275,7 +277,7 @@ const phoneController = {
     const params = req.body;
 
     // 3. Validar los datos
-    if(!params.name || !params.manufacturer ||  !params.description || !params.color || !params.price || !params.imageFileName || !params.screen || !params.processor || !params.ram){
+    if(!params.name || !params.manufacturer ||  !params.description || !params.color || !params.price || !params.screen || !params.processor || !params.ram){
       return res
         .status(500)
         .send({
@@ -397,7 +399,7 @@ const phoneController = {
       const phoneId = req.params.id;
   
       // Buscar el modelo de teléfono, asignarle el nombre y la imagen y actualizarlo
-      Phone.findOneAndUpdate({_id: phoneId}, {image: file_name}, {new: true}, (err, phoneUpdated) => {
+      Phone.findOneAndUpdate({_id: phoneId}, {imageFileName: file_name}, {new: true}, (err, phoneUpdated) => {
         if(err || !phoneUpdated){
           return res
             .status(404)
